@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PANDAPP | ALPAY BAYIK</title>
+	<!--Font Awesome-->
+	<script src="https://kit.fontawesome.com/428c32e7e1.js"></script>
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="jquery-3.3.1.slim.min.js"></script>
+	<script src="popper.min.js"></script>
+	<script src="bootstrap.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<!--Slider-->
+	<link rel="stylesheet" type="text/css" href="slick.css"/>
+	<link rel="stylesheet" type="text/css" href="slick-theme.css"/>
+	<script type="text/javascript" src="slick.min.js"></script>
+	<style type="text/css">
+		.drop-menu a{
+			color:#000;
+			text-decoration:none;
+			display:block;
+		}
+		.drop-menu a:hover{
+			background:#cccccc50;
+		}
+		.drop-menu{
+			position: absolute;
+			left: 0;
+			top: 100%;
+			z-index: 2;
+			background: #fff;
+			border:1px solid #000;
+			width: 100%;
+			opacity:0;
+			visibility:hidden;
+			transition:0.6s ease all;
+			padding:10px;
+		}
+
+		.category-menu > ul > li:hover .drop-menu{
+			opacity:1;
+			visibility:visible;
+		}
+		.category-menu > ul > li{
+			flex:1;
+			justify-content:center;
+			text-align:center;
+			padding: 15px;
+			position:relative;
+
+		}
+		.category-menu > ul > li > a{
+			color:#00000075;
+			text-decoration:none;
+			transition: 0.3s ease all;
+		}
+		.category-menu > ul > li > a:before{
+			content: '';
+			position:absolute;
+			left: 0;
+			bottom:0;
+			width:0;
+			border-bottom:1px solid #000;
+			transition: 0.3s ease all;
+		}
+		.category-menu > ul > li > a:hover{
+			color:#000;
+		}
+		.category-menu > ul > li a:hover:before{
+			width:100%;
+		}
+		.slick-initialized .slick-slide{
+			outline:none;
+		}
+		.outline-0{
+			outline:none !important;
+		}
+		.left-0{
+			left:0;
+		}
+		.bottom-0{
+			bottom:0;
+		}
+		.right-0{
+			right:0;
+		}
+		.position-center{
+			left:50%;
+			top:50%;
+			transform:translate(-50%,-50%);
+		}
+		.card-info{
+			top:auto;
+			bottom:-50%;
+			overflow:hidden;
+			background:#000000;
+			transition:0.3s cubic-bezier(0.4, 0, 1, 1) all
+		}
+		.card:hover .card-info{
+			bottom:-10%;
+		}
+		.tabs-list-menu  a:before{
+			content:'';
+			background:#000;
+			width:25px;
+			height:25px;
+			border-radius:50%;
+			border:1px solid #000;
+			display: block;
+			position: absolute;
+			transition: 0.3s ease all;
+			left:0;
+			z-index:2
+		}
+		.tabs-list-menu  a:after{
+			content: '';
+			border-left:5px solid #000;
+			position: absolute;
+			height:50px;
+			left:10px;
+		}
+		.tabs-list-menu  li:last-child a:after{
+			display:none;
+		}
+		.tabs-list-menu  a{
+			padding-left:20px;
+			color:#000;
+			transition:0.3s ease all;
+		}
+		.tabs-list-menu  a:hover, .tabs-list-menu   > li.active > a{
+			font-weight:bold;
+		}
+		.tabs-list-menu a:hover:before , .tabs-list-menu  > li.active > a:before{
+			background:#fff;
+			border:1px solid #000;
+			transform:scale(1.3);
+		}
+		@media all and(max-width:991px){
+			.mobile-header{
+				display:block;
+			}
+		}
+		.log:hover .log-menu{
+			display:block !important;
+		}
+		.shop-cart:hover .shop-menu{
+			display:block !important;
+		}
+		.log-menu , .shop-menu{
+			z-index:2;
+		}
+		.log-menu:before {
+			position: absolute;
+			content: '';
+			left: 50px;
+			border-right: 10px solid transparent;
+			border-bottom: 12px solid #f8f9fa;
+			border-left: 10px solid transparent;
+			border-top: 10px solid transparent;
+			top: -21px !important;
+			z-index: 1;
+		}
+		.shop-menu:before {
+			position: absolute;
+			content: '';
+			right: 30px;
+			border-right: 10px solid transparent;
+			border-bottom: 12px solid #f8f9fa;
+			border-left: 10px solid transparent;
+			border-top: 10px solid transparent;
+			top: -21px !important;
+			z-index: 1;
+		}
+		.price-div{cursor:pointer;}
+		.price-div:hover:before{display:none;}
+		.price-div:before{content:'100 TL';}
+		.price-div:hover:after{content:'SEPETE EKLE';}
+		.tabs-menu .right-tabs >div {
+			overflow: hidden;
+		}
+		.tab-list-items{
+			display:none;
+		}
+		.tab-list-items.active{
+			display:block;
+		}
+		.sepet-urun-total {
+			position: absolute;
+			bottom: 0;
+			font-size: 12px;
+			background: #ef5777;
+			color: #fff;
+			width: 15px;
+			height: 15px;
+			text-align: center;
+			line-height: 15px;
+			border-radius: 100%;
+		}
+		.menu-fixed {
+			position: fixed;
+			width:100%;
+			background:#fff;
+			z-index:9999;
+			top:0;
+		}
+		.menu-fixed .category-menu {
+			display:none;
+		}
+	</style>
+	<script type="text/javascript">
+		$(window).scroll(function(e) {
+			if($(window).scrollTop() > 100 && $(".menu-fixed").html()==undefined) {
+				$(".header").addClass('menu-fixed');
+			} 
+			if($(window).scrollTop() <= 100) {
+				console.log($(window).scrollTop());
+				$(".header").removeClass('menu-fixed');
+			}
+		});
+		$(document).ready(function(){
+			$('.slider').slick({
+				slidesToShow: 1,
+				dots:true,
+				infinite:true,
+				autoplay:true
+			});
+			$('.urun-grup-slider').slick({
+				slidesToShow: 4,
+				dots:false,
+				infinite:true,
+				autoplay:true,
+				responsive:[
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 1
+					}
+				}
+				]
+			});
+		});
+		$(document).on('click', '.tabs-list-menu li', function(event) {
+			$('.tabs-list-menu > li').removeClass('active');
+			$(this).toggleClass('active');
+			$('.tab-list-items').removeClass('active');
+			var tab = $(this).children().attr('data-tab');
+			console.log(tab);
+			$("#"+tab).toggleClass('active');
+
+		});
+		var sayac=0;
+		function sepet_ekle(yazi,resim){
+			if ($(".sepet tr td p").text() != "" && sayac!=0) {
+				$(".sepet").empty();
+			}
+			$(".sepet").append("<tr><td><img src='"+resim+"' style='max-width:25px;width:100%;'></td><td>"+yazi+"</td><td>100 TL</td></tr>");
+			$(".sepet-urun-total").text(sayac);
+		}
+		$(document).on("click",".price-div",function(){
+			var yazi = $(this).parent().parent().find(".card-body").text();
+			var resim = $(this).parent().parent().find(".card-img-top").attr('src');
+			sayac++;
+			sepet_ekle(yazi,resim);
+		})
+	</script>
+</head>
+<body>
+	<!-- ALPAY BAYIK  2019730016 BİLGİSAYAR PROGRAMCILIĞI (İ.Ö) B ŞUBESİ-->
+	<header class="header d-none d-lg-block ">
+		<div class="border-bottom">
+			<div class="container">
+				<nav class="navbar navbar-expand navbar-light">
+					<a class="navbar-brand" href="#"><img src="logo.png" class="w-100"></a>
+					<form class="form-inline justify-content-end w-100">
+						<input class="form-control rounded-0 shadow-none" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn border ml-1 rounded-0 my-2 my-sm-0 shadow-none" type="submit"><i class="fa fa-search"></i></button>
+					</form>
+					<ul class="navbar-nav w-100 justify-content-end position-relative">
+						<li class="nav-item">
+							<div class="log">
+								<a href="#" class="nav-link"><i class="far fa-user"></i> Giriş Yap</a>
+								<div class="log-menu position-absolute border w-50 p-3 bg-light d-none">
+									<div class="tab-menu text-center align-items-center">
+										<a href="#" class="tab-menu-item nav-link w-50 float-left border-bottom">GİRİŞ</a>
+										<a href="#" class="tab-menu-item nav-link w-50 float-left">KAYIT OL</a>
+									</div>
+									<div class="tab-menu-form w-100">
+										<form>
+											<input type="text" class="form-control rounded-0 mt-5 shadow-none" name="" placeholder="Kullanıcı Adı">
+											<input type="text" class="form-control rounded-0 my-2 shadow-none" name="" placeholder="Kullanıcı Şifre">
+											<input type="button" value="Giriş Yap" class="btn btn-dark shadow-none w-100 rounded-0">
+										</form>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#"><i class="far fa-heart"></i> Favorilerim</a>
+						</li>
+						<li class="nav-item">
+							<div class="shop-cart">
+								<a class="nav-link" href="#"><i class="fas fa-shopping-basket"></i> Sepetim <span class="sepet-urun-total">0</span></a>
+								<div class="shop-menu position-absolute border w-75 p-3 bg-light d-none right-0">
+									<div class="tab-menu text-center align-items-center border-bottom p-3">
+										<span class="h6">Sepetimdeki Ürünler</span>
+									</div>
+									<div class="tab-menu-body p-3">
+										<table border=0 class="w-100 sepet">
+											<tr><td><p class="text-truncate text-center">Alışveriş Sepetiniz Boş</p></td><td></td></tr>
+										</table>
+									</div>
+									<div class="tab-menu-bottom w-100">
+										<input type="button" value="SEPETİM" class="btn btn-dark shadow-none w-100 rounded-0">
+									</div>
+								</div>
+							</div>
+						</li>
+					</nav>
+				</div>
+			</div>
+			<div class="container">
+				<div class="category-menu">
+					<ul class="d-flex flex-row flex-wrap list-unstyled">
+						<li>
+							<a class="menu-item" href="#">Erkek</a>
+							<div class="drop-menu">
+								<ul class="list-unstyled text-center w-100 float-left">
+									<li><a href="javascript:void(0)">AKSESUAR</a></li>
+									<li><a href="javascript:void(0)">BERE / ŞAPKA</a></li>
+									<li><a href="javascript:void(0)">KIYAFET</a></li>
+									<li><a href="javascript:void(0)">CEKET</a></li>
+									<li><a href="javascript:void(0)">PANTOLON</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a class="menu-item" href="#">Kadın</a>
+							<div class="drop-menu">
+								<ul class="list-unstyled text-centers w-100 float-left">
+									<li><a href="javascript:void(0)">AKSESUAR</a></li>
+									<li><a href="javascript:void(0)">BERE / ŞAPKA</a></li>
+									<li><a href="javascript:void(0)">KIYAFET</a></li>
+									<li><a href="javascript:void(0)">CEKET</a></li>
+									<li><a href="javascript:void(0)">PANTOLON</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a class="menu-item" href="#">Çocuk</a>
+							<div class="drop-menu">
+								<ul class="list-unstyled text-center w-100 float-left">
+									<li><a href="javascript:void(0)">AKSESUAR</a></li>
+									<li><a href="javascript:void(0)">BERE / ŞAPKA</a></li>
+									<li><a href="javascript:void(0)">KIYAFET</a></li>
+									<li><a href="javascript:void(0)">CEKET</a></li>
+									<li><a href="javascript:void(0)">PANTOLON</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a class="menu-item" href="#">Aksesuar</a>
+							<div class="drop-menu">
+								<ul class="list-unstyled text-center w-100 float-left">
+									<li><a href="javascript:void(0)">AKSESUAR</a></li>
+									<li><a href="javascript:void(0)">BERE / ŞAPKA</a></li>
+									<li><a href="javascript:void(0)">KIYAFET</a></li>
+									<li><a href="javascript:void(0)">CEKET</a></li>
+									<li><a href="javascript:void(0)">PANTOLON</a></li>
+								</ul>
+							</div>
+						</li>
+						<li><a class="menu-item" href="#">Kozmetik</a></li>
+						<li><a class="menu-item" href="#">İndirimli Ürünler</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div class="mobile-header d-lg-none">
+			<div class="container">
+				<nav class="navbar navbar-expand navbar-light">
+					<div class="left-menu col-4 float-left justify-content-start">
+						<i class="fas fa-bars"></i>
+					</div>
+					<div class="logo col-4 float-left justify-content-center text-center"><a class="navbar-brand" href="#"><img src="logo.png" class="w-100"></a></div>
+					<div class="right-menu col-4 float-left justify-content-end text-right">
+						<i class="far fa-user"></i>
+					</div>
+				</nav>
+			</div>
+		</div>
+		<div class="container">
+			<div class="slider">
+				<div><img class="w-100 h-100" src="deneme3.jpg"></div>
+				<div><img class="w-100 h-100" src="deneme2.jpg"></div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="top-sale text-center p-3"><h3>İNDİRİMLİ ÜRÜNLER</h3></div> 
+			<div class="urun-grup-slider">
+				<div>
+					<div class="card mw-100 mx-2 position-relative">
+						<div class="card-head p-3">
+							<img src="1.jpg" class="card-img-top mw-100" alt="...">
+						</div>
+						<div class="card-body">
+							<h5 class="card-title text-center h6">KIRMIZI TUNİK</h5>
+						</div>
+						<div class="card-info w-100 position-absolute position-center">
+							<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+								<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+							</ul>
+							<div class="price-div text-white h4 text-center border mx-2">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="card mw-100 mx-2 position-relative">
+						<div class="card-head p-3">
+							<img src="2.jpg" class="card-img-top mw-100" alt="...">
+						</div>
+						<div class="card-body">
+							<h5 class="card-title text-center h6">KABAN</h5>
+						</div>
+						<div class="card-info w-100 position-absolute position-center">
+							<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+								<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+							</ul>
+							<div class="price-div text-white h4 text-center border mx-2 ">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="card mw-100 mx-2 position-relative">
+						<div class="card-head p-3">
+							<img src="4.jpg" class="card-img-top mw-100" alt="...">
+						</div>
+						<div class="card-body">
+							<h5 class="card-title text-center h6">KIRMIZI DERİ CEKET</h5>
+						</div>
+						<div class="card-info w-100 position-absolute position-center">
+							<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+								<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+							</ul>
+							<div class="price-div text-white h4 text-center border mx-2">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="card mw-100 mx-2 position-relative">
+						<div class="card-head p-3">
+							<img src="3.jpg" class="card-img-top mw-100" alt="...">
+						</div>
+						<div class="card-body">
+							<h5 class="card-title text-center h6">CEKET</h5>
+						</div>
+						<div class="card-info w-100 position-absolute position-center">
+							<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+								<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+							</ul>
+							<div class="price-div text-white h4 text-center border mx-2">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="card mw-100 mx-2 position-relative">
+						<div class="card-head p-3">
+							<img src="5.jpg" class="card-img-top mw-100" alt="...">
+						</div>
+						<div class="card-body">
+							<h5 class="card-title text-center h6">TRİKO KAZAK</h5>
+						</div>
+						<div class="card-info w-100 position-absolute position-center">
+							<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+								<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+								<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+							</ul>
+							<div class="price-div text-white h4 text-center border mx-2">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="tabs-menu mt-3">
+				<div class="tabs-head w-100 text-center border-bottom"><h2>EN ÇOK SATANLAR</h2></div>
+				<div class="left-tabs  col-md-3 col-12 float-left">
+					<ul class="list-unstyled m-0 tabs-list-menu">
+						<li class="my-4 active"><a class="text-decoration-none" href="javascript:void(0)" data-tab="erkek">ERKEK</a></li>
+						<li class="my-4"><a class="text-decoration-none" href="javascript:void(0)" data-tab="kadin">KADIN</a></li>
+						<li class="my-4"><a class="text-decoration-none" href="javascript:void(0)" data-tab="cocuk">ÇOCUK</a></li>
+					</ul>
+				</div>
+				<div class="right-tabs col-md-9 col-12 float-left pt-3 tab-content">
+					<div id="erkek" class="tab-list-items active">
+						<div class="row">
+							<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+								<div class="card mw-100 mx-2 position-relative">
+									<div class="card-head p-3">
+										<img src="5.jpg" class="card-img-top mw-100" alt="...">
+									</div>
+									<div class="card-body">
+										<h5 class="card-title text-center h6">TRİKO KAZAK</h5>
+									</div>
+									<div class="card-info w-100 position-absolute position-center">
+										<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+											<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+										</ul>
+										<div class="price-div text-white h5 text-center">
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+								<div class="card mw-100 mx-2 position-relative">
+									<div class="card-head p-3">
+										<img src="2.jpg" class="card-img-top mw-100" alt="...">
+									</div>
+									<div class="card-body">
+										<h5 class="card-title text-center h6">KABAN</h5>
+									</div>
+									<div class="card-info w-100 position-absolute position-center">
+										<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+											<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+										</ul>
+										<div class="price-div text-white h5 text-center">
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+								<div class="card mw-100 mx-2 position-relative">
+									<div class="card-head p-3">
+										<img src="6.jpg" class="card-img-top mw-100" alt="...">
+									</div>
+									<div class="card-body">
+										<h5 class="card-title text-center h6">Baskılı Tshirt</h5>
+									</div>
+									<div class="card-info w-100 position-absolute position-center">
+										<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+											<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+										</ul>
+										<div class="price-div text-white h5 text-center">
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="kadin" class="tab-list-items">
+						<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+							<div class="card mw-100 mx-2 position-relative">
+								<div class="card-head p-3">
+									<img src="1.jpg" class="card-img-top mw-100" alt="...">
+								</div>
+								<div class="card-body">
+									<h5 class="card-title text-center h6">KIRMIZI TUNİK</h5>
+								</div>
+								<div class="card-info w-100 position-absolute position-center">
+									<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+										<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+										<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+										<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+										<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+									</ul>
+									<div class="price-div text-white h5 text-center ">
+
+									</div>
+								</div>
+							</div></div>
+							<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+								<div class="card mw-100 mx-2 position-relative">
+									<div class="card-head p-3">
+										<img src="3.jpg" class="card-img-top mw-100" alt="...">
+									</div>
+									<div class="card-body">
+										<h5 class="card-title text-center h6">CEKET</h5>
+									</div>
+									<div class="card-info w-100 position-absolute position-center">
+										<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+											<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+											<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+										</ul>
+										<div class="price-div text-white h5 text-center">
+
+										</div>
+									</div>
+								</div></div>
+								<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+									<div class="card mw-100 mx-2 position-relative">
+										<div class="card-head p-3">
+											<img src="4.jpg" class="card-img-top mw-100" alt="...">
+										</div>
+										<div class="card-body">
+											<h5 class="card-title text-center h6">KIRMIZI DERİ CEKET</h5>
+										</div>
+										<div class="card-info w-100 position-absolute position-center">
+											<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+												<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+												<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+												<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+												<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+											</ul>
+											<div class="price-div text-white h5 text-center">
+
+											</div>
+										</div>
+									</div></div>
+								</div>
+
+								<div id="cocuk" class="tab-list-items">
+									<div class="row">
+										<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+											<div class="card mw-100 mx-2 position-relative">
+												<div class="card-head p-3">
+													<img src="7.jpg" class="card-img-top mw-100" alt="...">
+												</div>
+												<div class="card-body">
+													<h5 class="card-title text-center h6">TAVŞANLI TAKIM</h5>
+												</div>
+												<div class="card-info w-100 position-absolute position-center">
+													<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+														<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+													</ul>
+													<div class="price-div text-white h5 text-center">
+
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+											<div class="card mw-100 mx-2 position-relative">
+												<div class="card-head p-3">
+													<img src="8.jpg" class="card-img-top mw-100" alt="...">
+												</div>
+												<div class="card-body">
+													<h5 class="card-title text-center h6">PAPYONLU TAKIM</h5>
+												</div>
+												<div class="card-info w-100 position-absolute position-center">
+													<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+														<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+													</ul>
+													<div class="price-div text-white h5 text-center">
+
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-6 col-12 float-left p-2">
+											<div class="card mw-100 mx-2 position-relative">
+												<div class="card-head p-3">
+													<img src="9.jpg" class="card-img-top mw-100" alt="...">
+												</div>
+												<div class="card-body">
+													<h5 class="card-title text-center h6">KIRMIZI SİYAH TAKIM</h5>
+												</div>
+												<div class="card-info w-100 position-absolute position-center">
+													<ul class="item-info list-unstyled d-flex align-items-center justify-content-center m-0">
+														<li><a class="btn btn-light rounded-0 m-1" href="#">S</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">M</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">L</a></li>
+														<li><a class="btn btn-light rounded-0 m-1" href="#">XL</a></li>
+													</ul>
+													<div class="price-div text-white h5 text-center">
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ebulten bg-light w-100 float-left" style="height:100px;">
+						<div class="container">
+							<div class="col-md-6 float-left">
+								<div class="col-md-2 float-left">
+									<i class="fas fa-bullhorn" style="font-size:50px;line-height:100px"></i>
+								</div>
+								<div class="col-md-10 float-left">
+									<div class="p-4">
+										<span class="h4 d-block"> E-Bülten</span>
+										<span>E-bülten abonesi olun</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 float-left position-relative" style="height:100px;width:100%">
+								<form>
+									<div class="input-group position-absolute position-center">
+										<input class="shadow-none outline-0 form-control rounded-0" type="text" name="" placeholder="Mail Adresinizi Giriniz">
+										<button class="btn btn-dark rounded-0 outline-0 shadow-none"><i class="far fa-paper-plane"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<footer class="bg-dark float-left w-100">
+						<div class="container">
+							<div class="col-lg-4 col-sm-12 pt-4 float-left">
+								<div class="navbar-dark border-bottom text-center"><a  class="navbar-brand" href="#"><img src="logo.png" class="w-100"></a></div>
+								<div class="social-media">
+									<ul class="social-media-list list-unstyled d-flex flex-wrap flex-row align-items-center justify-content-center">
+										<li><a class="nav-link h4" href=""><i class="fab fa-facebook-square"></i></a></li>
+										<li><a class="nav-link h4" href=""><i class="fab fa-twitter-square"></i></a></li>
+										<li><a class="nav-link h4" href=""><i class="fab fa-instagram"></i></a></li>
+										<li><a class="nav-link h4" href=""><i class="fab fa-youtube"></i></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-lg-4 col-sm-6 pt-4 float-left">
+								<div class="border-bottom text-left text-light h5 p-2"><span>KATEGORİLER</span></div>
+								<div class="footer-list-master">
+									<ul class="footer-list list-unstyled p-2">
+										<li><a class="text-light text-decoration-none" href="">Erkek</a></li>
+										<li><a class="text-light text-decoration-none" href="">Kadın</a></li>
+										<li><a class="text-light text-decoration-none" href="">Çocuk</a></li>
+										<li><a class="text-light text-decoration-none" href="">Kozmetik</a></li>
+										<li><a class="text-light text-decoration-none" href="">Aksesuar</a></li>
+										<li><a class="text-light text-decoration-none" href="">İndirimli Ürünler</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-lg-4 col-sm-6 pt-4 float-left">
+								<div class="border-bottom text-left text-light h5 p-2"><span>İŞ YERİMİZ</span></div>
+								<div class="maps">
+									<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12512.28288266763!2d27.1286119!3d38.3704854!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x2199cdaf0edfba55!2sEge+Pen+Deceuninck+%C3%87%C4%B1nar+Pen!5e0!3m2!1str!2str!4v1563217787137!5m2!1str!2str" frameborder="0" style="border:0;width:100%;" allowfullscreen=""></iframe>
+								</div>
+							</div>
+						</div>
+					</footer>
+					<!-- | ALPAY BAYIK  2019730016 BİLGİSAYAR PROGRAMCILIĞI (İ.Ö) B ŞUBESİ |-->
+				</body>
+				</html>
